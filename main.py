@@ -72,8 +72,16 @@ def processCommand(c):
 
     elif c.startswith("search for") or c.startswith("search") or c.startswith("google"):
         query = c.replace("search for", "").replace("search", "").replace("google", "").strip()
-        speak(f"Searching for {query}")
-        webbrowser.open(f"https://www.google.com/search?q={query}")
+
+        if query:
+            speak(f"Searching for {query}")
+            webbrowser.open(f"https://www.google.com/search?q={query}")
+        else:
+            speak("What would you like me to search for?")
+
+    else:
+        speak(f"Searching Google for {c}")
+        webbrowser.open(f"https://www.google.com/search?q={c}")
 
 if __name__ == "__main__":
     speak("Hi Sir, How can i help you today.")
@@ -106,13 +114,10 @@ if __name__ == "__main__":
             print("No speech detected, still listening...")
         except sr.UnknownValueError:
             print("Couldn't understand audio, try speaking clearer/louder")
-            speak("Couldn't understand audio, try speaking clearer or louder")
         except sr.RequestError as e:
             print("Could not reach Google API:", e)
             speak("Could not reach Google API:", e)
         except Exception as e:
             print("Other error:", e)
-            speak("Other error:", e)    
         
     print("Jarvis has stopped.")
-    speak("Jarvis has stopped.")
